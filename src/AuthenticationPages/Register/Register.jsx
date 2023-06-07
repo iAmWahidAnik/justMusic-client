@@ -7,10 +7,12 @@ import { FaFacebookF, FaGoogle } from "react-icons/fa";
 
 const Register = () => {
     // const [value, setValue] = useState('');
+    const [passError, setPassError] = useState('');
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
+        setPassError('');
         if (data.password !== data.rePassword) {
-            return alert('pass valo moto de')
+            return setPassError("password didn't matched properly");
         }
         console.log(data)
     };
@@ -25,17 +27,20 @@ const Register = () => {
                     {/* name  */}
                     <div>
                         <input {...register("name", { required: true })} type="text" placeholder="Name" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
+                        {errors.password?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">password is required</p>}
                     </div>
                     {/* email  */}
                     <div>
                         <input {...register("email", { required: true })} type="email" placeholder="Email" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
+                        {errors.password?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">password is required</p>}
                     </div>
                     {/* photo URL  */}
                     <div>
                         <input {...register("photo", { required: true })} type="url" placeholder="photo url" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
+                        {errors.password?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">password is required</p>}
                     </div>
                     {/* Gender  */}
-                    <select {...register("gender", { required: true })} className="select select-ghost w-full border-b-2 bg-transparent border-white border-0 rounded-none text-white focus:outline-none max-w-xs">
+                    <select {...register("gender")} className="select select-ghost w-full border-b-2 bg-transparent border-white border-0 rounded-none text-white focus:outline-none max-w-xs">
                         <option disabled selected>Select your gender</option>
                         <option>Male</option>
                         <option>Female</option>
@@ -48,7 +53,7 @@ const Register = () => {
                             value={value}
                             onChange={setValue} /> */}
 
-                        <input {...register("phone", { required: true })} type="tel" placeholder="phone number" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
+                        <input {...register("phone")} type="tel" placeholder="phone number" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
                     </div>
                     {/* address  */}
                     <div>
@@ -56,11 +61,15 @@ const Register = () => {
                     </div>
                     {/* password  */}
                     <div>
-                        <input {...register("password", { required: true })} type="password" placeholder="password" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
+                        <input {...register("password", { required: true, minLength: 6, pattern: /(?=.*[A-Z])(?=.*[!@#$&*])/})} type="password" placeholder="password" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
+                        {errors.password?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">password is required</p>}
+                        {errors.password?.type === 'minLength' && <p className='text-error text-sm pl-5 mt-5' role="alert">Password must have 6 character or more</p>}
+                        {errors.password?.type === 'pattern' && <p className='text-error text-sm pl-5 mt-5' role="alert">Password must have one uppercase and one special character</p>}
                     </div>
                     {/* Confirm Password  */}
                     <div>
                         <input {...register("rePassword", { required: true })} type="password" placeholder="confirm Password" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
+                        <p className='text-error text-sm pl-5 mt-5' role="alert">{passError}</p>
                     </div>
                     <div>
                         <input className='btn bg-white font-bold rounded-3xl hover:translate-x-2' type="submit" value="Register" />
