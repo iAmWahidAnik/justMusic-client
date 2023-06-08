@@ -1,11 +1,41 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Header = () => {
+    const { user, logout } = useContext(AuthContext);
+
+    const handleLogout = () => {
+        logout()
+            .then(res => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Logged Out successfully'
+                })
+            })
+            .catch(error => {
+                const message = error.message;
+            })
+    }
+
     const ulItems = <>
         <li><Link>Home</Link></li>
         <li><Link>Instructors</Link></li>
         <li><Link>Classes</Link></li>
+        {user && <li><Link to='/dashboard'>Dashboard</Link></li>}
+        {user && <li><button onClick={handleLogout} className='btn btn-sm lowercase'>Logout</button></li>}
     </>
     return (
         <div>
@@ -19,7 +49,7 @@ const Header = () => {
                             {ulItems}
                         </ul>
                     </div>
-                    <a className="btn btn-ghost normal-case text-2xl">JustMusic</a>
+                    <a className="btn btn-ghost normal-case text-2xl font-bold">JustMusic</a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 font-semibold">
@@ -27,7 +57,13 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Login</a>
+                    {user ?
+                        <div className="avatar">
+                            <div className="w-16 rounded">
+                                <img src={user.photoURL} alt="Tailwind-CSS-Avatar-component" />
+                            </div>
+                        </div>
+                        : <Link to='/login' className="btn">Login</Link>}
                 </div>
             </div>
         </div>
