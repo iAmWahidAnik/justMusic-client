@@ -7,6 +7,12 @@ import Home from './Pages/Home/Home.jsx'
 import ErrorElement from './Pages/ErrorElement/ErrorElement'
 import Login from './AuthenticationPages/Login/Login'
 import Register from './AuthenticationPages/Register/Register'
+import AuthProvider from './Providers/AuthProvider'
+import Dashboard from './Layouts/Dashboard'
+import MySelectedClass from './Pages/Dashboard/Student/MySelectedClass/MySelectedClass'
+import MyEnrolledClass from './Pages/Dashboard/Student/MyEnrolledClass/MyEnrolledClass'
+import AddClass from './Pages/Dashboard/Instructor/AddClass/AddClass'
+import MyClasses from './Pages/Dashboard/Instructor/MyClasses/MyClasses'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +28,30 @@ const router = createBrowserRouter([
     ]
   },
   {
+    path: 'dashboard',
+    element: <Dashboard></Dashboard>,
+    children: [
+      {
+        path: 'selectedclass',
+        element: <MySelectedClass></MySelectedClass>
+      },
+      {
+        path: 'enrolledclass',
+        element: <MyEnrolledClass></MyEnrolledClass>
+      },
+      // instructor route
+      {
+        path: 'addclass',
+        element: <AddClass></AddClass>
+      },
+      {
+        path: 'myclasses',
+        element: <MyClasses></MyClasses>
+      },
+      //Admin route
+    ]
+  },
+  {
     path: 'login',
     element: <Login></Login>
   },
@@ -33,6 +63,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <AuthProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )

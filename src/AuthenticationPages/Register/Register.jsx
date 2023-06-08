@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 // import PhoneInput from 'react-phone-number-input';
 // import 'react-phone-number-input/style.css'
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
+import { AuthContext } from '../../Providers/AuthProvider';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import {  useNavigate } from 'react-router-dom';
 
 const Register = () => {
     // const [value, setValue] = useState('');
+    const { googleLogin } = useContext(AuthContext);
     const [passError, setPassError] = useState('');
+    const [googleError, setGoogleError] = useState('');
+    const navigate = useNavigate();
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
         setPassError('');
@@ -16,6 +23,47 @@ const Register = () => {
         }
         console.log(data)
     };
+
+    const handleGoogleLogin = (e) => {
+        e.preventDefault();
+        googleLogin()
+            .then(result => {
+                setGoogleError('');
+                const user = result.user;
+                const userName = user.displayName;
+                const userEmail = user.email;
+
+                const newUser = { displayName: userName, email: userEmail, role: 'student' };
+                axios.post('http://localhost:3000/setuser', newUser)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            navigate('/');
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'User Created successfully'
+                            })
+                        }
+                    })
+            })
+            .catch(error => {
+                const message = error.message;
+                setGoogleError(message);
+                const code = error.code;
+            })
+    }
     return (
         <div className='bg-pink-500 min-h-screen p-20'>
             <div className='bg-black max-w-3xl mx-auto rounded-lg flex gap-10 shadow-2xl'>
@@ -61,7 +109,7 @@ const Register = () => {
                     </div>
                     {/* password  */}
                     <div>
-                        <input {...register("password", { required: true, minLength: 6, pattern: /(?=.*[A-Z])(?=.*[!@#$&*])/})} type="password" placeholder="password" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
+                        <input {...register("password", { required: true, minLength: 6, pattern: /(?=.*[A-Z])(?=.*[!@#$&*])/ })} type="password" placeholder="password" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
                         {errors.password?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">password is required</p>}
                         {errors.password?.type === 'minLength' && <p className='text-error text-sm pl-5 mt-5' role="alert">Password must have 6 character or more</p>}
                         {errors.password?.type === 'pattern' && <p className='text-error text-sm pl-5 mt-5' role="alert">Password must have one uppercase and one special character</p>}
@@ -77,12 +125,13 @@ const Register = () => {
                     <div className="divider text-white">OR</div>
                     <div className='flex gap-5 mx-auto'>
                         <div>
-                            <button className='btn btn-circle'><FcGoogle className='text-3xl'></FcGoogle></button>
+                            <button onClick={handleGoogleLogin} className='btn btn-circle'><FcGoogle className='text-3xl'></FcGoogle></button>
                         </div>
                         <div>
-                            <button className='btn btn-circle'><FaFacebookF className='text-3xl text-blue-600'></FaFacebookF></button>
+                            <button disabled className='btn btn-circle'><FaFacebookF className='text-3xl text-blue-600'></FaFacebookF></button>
                         </div>
                     </div>
+                    <p className='text-center text-red-600'>{googleError}</p>
                 </form>
             </div>
         </div>

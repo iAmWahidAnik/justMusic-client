@@ -1,16 +1,61 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const Login = () => {
+    const { googleLogin } = useContext(AuthContext);
     const [showPass, setShowPass] = useState(false);
+    const [googleError, setGoogleError] = useState('');
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
         console.log(data)
     };
+
+
+    const handleGoogleLogin = e => {
+        e.preventDefault();
+        googleLogin()
+            .then(result => {
+                setGoogleError('');
+                const user = result.user;
+                const userName = user.displayName;
+                const userEmail = user.email;
+
+                const newUser = { displayName: userName, email: userEmail, role: 'student' };
+                axios.post('http://localhost:3000/setuser', newUser)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            navigate('/');
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'User Created successfully'
+                            })
+                        }
+                    })
+            })
+            .catch(error => {
+                const message = error.message;
+                setGoogleError(message);
+                const code = error.code;
+            })
+    }
     return (
         <div className="py-20 min-h-screen bg-[url('https://colorlib.com/etc/lf/Login_v9/images/bg-01.jpg')] bg-cover">
             <form onSubmit={handleSubmit(onSubmit)} className='shadow-2xl max-w-md rounded-2xl mx-auto bg-white p-20 flex flex-col gap-10'>
@@ -37,12 +82,13 @@ const Login = () => {
                 <div className="divider">OR</div>
                 <div className='flex gap-5 mx-auto'>
                     <div>
-                        <button className='btn btn-circle btn-lg'><FcGoogle className='text-3xl'></FcGoogle></button>
+                        <button onClick={handleGoogleLogin} className='btn btn-circle btn-lg'><FcGoogle className='text-3xl'></FcGoogle></button>
                     </div>
                     <div>
-                        <button className='btn btn-circle btn-lg'><FaFacebookF className='text-3xl text-blue-600'></FaFacebookF></button>
+                        <button disabled className='btn btn-circle btn-lg'><FaFacebookF className='text-3xl text-blue-600'></FaFacebookF></button>
                     </div>
                 </div>
+                <p className='text-center text-red-600'>{googleError}</p>
                 <div>
                     <p className='text-center font-semibold'>new to justMusic? <Link className='text-primary' to='/register'>Register</Link></p>
                 </div>
