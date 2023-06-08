@@ -1,12 +1,53 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import useCheckRole from '../hooks/useCheckRole';
 
 const Dashboard = () => {
+    const checkRole = useCheckRole();
+    console.log(checkRole?.data);
 
-    const menuItems = <>
-        <li><Link to='/dashboard/selectedclass'>My Selected Classes</Link></li>
-        <li><Link to='/dashboard/enrolledclass'>My Enrolled Classes</Link></li>
-    </>
+    const menuItems =
+        checkRole?.data === 'admin' ?
+            <>
+                <li><Link to='/dashboard/manageclasses'>Manage Classes</Link></li>
+                <li><Link to='/dashboard/manageusers'>Manage Users</Link></li>
+            </> :
+            checkRole?.data === 'instructor' ?
+                <>
+                    <li><Link to='/dashboard/addclass'>Add a Class</Link></li>
+                    <li><Link to='/dashboard/myclasses'>My Classes</Link></li>
+                </> :
+                <>
+                    <li><Link to='/dashboard/selectedclass'>My Selected Classes</Link></li>
+                    <li><Link to='/dashboard/enrolledclass'>My Enrolled Classes</Link></li>
+                </>
+    // if (checkRole === 'admin') {
+    //     const menuItems =
+    //         <>
+    //             <li><Link to='/dashboard/selectedclass'>My Selected Classes</Link></li>
+    //             <li><Link to='/dashboard/enrolledclass'>My Enrolled Classes</Link></li>
+    //         </>
+    //     return menuItems
+    // }
+    // else if (checkRole === 'instructor') {
+    //     const menuItems =
+    //         <>
+    //             <li><Link to='/dashboard/selectedclass'>My Selected Classes</Link></li>
+    //             <li><Link to='/dashboard/enrolledclass'>My Enrolled Classes</Link></li>
+    //         </>
+    //     return menuItems
+    // }
+    // else {
+    //     const menuItems =
+    //         <>
+    //             <li><Link to='/dashboard/selectedclass'>My Selected Classes</Link></li>
+    //             <li><Link to='/dashboard/enrolledclass'>My Enrolled Classes</Link></li>
+    //         </>
+    //     return menuItems
+    // }
+    // }
+
+
     return (
         <div className="drawer">
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />

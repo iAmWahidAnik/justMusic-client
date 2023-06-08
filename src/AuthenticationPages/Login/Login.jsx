@@ -1,14 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { AuthContext } from '../../Providers/AuthProvider';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const { googleLogin } = useContext(AuthContext);
     const [showPass, setShowPass] = useState(false);
+    const navigate = useNavigate();
     const [googleError, setGoogleError] = useState('');
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
@@ -28,9 +31,9 @@ const Login = () => {
                 const newUser = { displayName: userName, email: userEmail, role: 'student' };
                 axios.post('http://localhost:3000/setuser', newUser)
                     .then(res => {
-                        console.log(res.data);
+                        // console.log(res.data);
+                        navigate('/');
                         if (res.data.insertedId) {
-                            navigate('/');
                             const Toast = Swal.mixin({
                                 toast: true,
                                 position: 'top-end',

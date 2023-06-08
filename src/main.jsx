@@ -15,6 +15,9 @@ import AddClass from './Pages/Dashboard/Instructor/AddClass/AddClass'
 import MyClasses from './Pages/Dashboard/Instructor/MyClasses/MyClasses'
 import ManageClasses from './Pages/Dashboard/Admin/ManageClasses/ManageClasses'
 import ManageUsers from './Pages/Dashboard/Admin/ManageUsers/ManageUsers'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -74,7 +77,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router}></RouterProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router}></RouterProvider>
+      </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>,
 )

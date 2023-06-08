@@ -7,7 +7,7 @@ import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { AuthContext } from '../../Providers/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import {  useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
     // const [value, setValue] = useState('');
@@ -121,6 +121,9 @@ const Register = () => {
                     </div>
                     <div>
                         <input className='btn bg-white font-bold rounded-3xl hover:translate-x-2' type="submit" value="Register" />
+                    </div>
+                    <div>
+                        <p className='text-center font-semibold text-white my-3'>Already have an account? <Link className='text-primary' to='/login'>Login</Link></p>
                     </div>
                     <div className="divider text-white">OR</div>
                     <div className='flex gap-5 mx-auto'>
