@@ -49,7 +49,7 @@ const Dashboard = () => {
 
 
     return (
-        <div className="drawer">
+        <div className="drawer max-w-7xl mx-auto">
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col">
                 {/* Navbar */}

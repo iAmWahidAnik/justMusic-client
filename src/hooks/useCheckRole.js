@@ -11,7 +11,7 @@ const useCheckRole = () => {
         queryKey: ['checkRole', user?.email],
         enabled: !loading,
         queryFn: async() => {
-            const response = axios.get(`http://localhost:3000/users/checkrole/${user?.email}`)
+            const response = await axios.get(`http://localhost:3000/users/checkrole/${user?.email}`)
             return response;
         }
     })
