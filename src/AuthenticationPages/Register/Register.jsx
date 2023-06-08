@@ -75,17 +75,17 @@ const Register = () => {
                     {/* name  */}
                     <div>
                         <input {...register("name", { required: true })} type="text" placeholder="Name" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
-                        {errors.password?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">password is required</p>}
+                        {errors.name?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">name is required</p>}
                     </div>
                     {/* email  */}
                     <div>
                         <input {...register("email", { required: true })} type="email" placeholder="Email" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
-                        {errors.password?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">password is required</p>}
+                        {errors.email?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">password is required</p>}
                     </div>
                     {/* photo URL  */}
                     <div>
                         <input {...register("photo", { required: true })} type="url" placeholder="photo url" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
-                        {errors.password?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">password is required</p>}
+                        {errors.photo?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">photo link is required</p>}
                     </div>
                     {/* Gender  */}
                     <select {...register("gender")} className="select select-ghost w-full border-b-2 bg-transparent border-white border-0 rounded-none text-white focus:outline-none max-w-xs">

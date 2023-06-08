@@ -4,7 +4,7 @@ import useCheckRole from '../hooks/useCheckRole';
 
 const Dashboard = () => {
     const checkRole = useCheckRole();
-    console.log(checkRole?.data);
+    // console.log(checkRole?.data);
 
     const menuItems =
         checkRole?.data === 'admin' ?
