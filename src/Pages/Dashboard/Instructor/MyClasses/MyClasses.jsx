@@ -15,6 +15,12 @@ const MyClasses = () => {
         }
     })
 
+    if (isLoading) { 
+        return <button className="btn">
+            <span className="loading loading-spinner"></span>
+            loading
+        </button>
+    }
     const myClass = myClassesArray.data;
     return (
         <div className='grid grid-cols-3 gap-5 my-20'>
