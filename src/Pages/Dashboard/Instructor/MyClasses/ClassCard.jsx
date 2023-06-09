@@ -11,8 +11,8 @@ const ClassCard = ({ perClass }) => {
                     <div className="badge badge-primary">{status}</div>
                 </h2>
                 <p>{instructorName}</p>
-                <p className='text-sm'>{feedback}</p>
-                <div className="card-actions justify-end">
+                <p className='text-sm'>{feedback && `Feedback : ${feedback}`}</p>
+                <div className="card-actions justify-start">
                     <div className="badge badge-outline">Available Seat : {availableSeat}</div>
                     <div className="badge badge-outline">Total Enrolled : {totalEnrolledStudent}</div>
                 </div>

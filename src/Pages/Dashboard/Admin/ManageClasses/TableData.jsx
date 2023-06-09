@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 const TableData = ({ perClass }) => {
   const { _id, className, classImage, instructorName, instructorEmail, availableSeat, price, status, totalEnrolledStudent } = perClass;
 
-  const handleFeedback = async() => {
+  const handleFeedback = async (id) => {
     const { value } = await Swal.fire({
       title: 'Feedback',
       input: 'text',
@@ -14,8 +14,21 @@ const TableData = ({ perClass }) => {
     })
 
     if (value) {
-      Swal.fire(`Your Feedback: ${value}`)
-    }else {
+      const newFb = {value}
+      axios.patch(`http://localhost:3000/updatefb?id=${id}`, newFb)
+        .then(res => {
+          if (res.data.modifiedCount > 0) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Feedback Sent Successfully'
+            });
+          }
+        })
+      // Swal.fire({
+      //   icon: 'success',
+      //   title: 'Feedback Sent Successfully'
+      // });
+    } else {
       Swal.fire(`Empty Input`)
     }
   }
@@ -114,7 +127,7 @@ const TableData = ({ perClass }) => {
       <td>
         <button disabled={status !== 'pending'} onClick={() => handleApprove(_id, 'approved')} className="btn btn-primary btn-xs mx-1">Approve</button>
         <button disabled={status !== 'pending'} onClick={() => handleApprove(_id, 'deny')} className="btn btn-primary btn-xs mx-1">Deny</button>
-        <button onClick={handleFeedback} className="btn btn-primary btn-xs mx-1">Send Feedback</button>
+        <button onClick={() => handleFeedback(_id)} className="btn btn-primary btn-xs mx-1">Send Feedback</button>
 
       </td>
     </tr>
