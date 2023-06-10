@@ -4,24 +4,31 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const ClassCard = ({ perClass }) => {
-    const {_id, className, classImage, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent, } = perClass;
+    const { _id, className, classImage, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent } = perClass;
     const [disable, setDisable] = useState(false)
 
     //user from firebase
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const handleSelectClass = (id) => {
-        const studentAddedClass = {classId: id, studentEmail: user.email, paymentStatus: 'pending'}
+        const studentAddedClass = { classId: id, studentEmail: user.email, paymentStatus: 'pending' }
         axios.post('http://localhost:3000/selectclass', studentAddedClass)
-        .then(res => {
-            if(res.data.insertedId){
-                setDisable(true)
-                Swal.fire({
-                    icon: 'success',
-                    title: `${className} Added Successfully`
-                  });
-            }
-        })
+            .then(res => {
+                if (res.data.insertedId) {
+                    setDisable(true)
+                    Swal.fire({
+                        icon: 'success',
+                        title: `${className} Added Successfully`
+                    });
+                }
+                else if (res.data.matched) {
+                    setDisable(true)
+                    Swal.fire({
+                        icon: 'info',
+                        title: `${className} Already in you class list`
+                    });
+                }
+            })
     }
     return (
         <div className="card w-96 bg-base-100 shadow-xl">

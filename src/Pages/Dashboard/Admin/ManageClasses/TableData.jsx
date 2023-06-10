@@ -138,8 +138,8 @@ const TableData = ({ perClass, refetch }) => {
         <p className={`badge ${status === 'approved' ? 'badge-success' : status === 'pending' ? 'badge-primary' : 'badge-error'}`}>{status}</p>
       </td>
       <td>
-        <button disabled={status !== 'pending'} onClick={() => handleStatus(_id, 'approved')} className="btn btn-primary btn-xs mx-1">Approve</button>
-        <button disabled={status !== 'pending'} onClick={() => handleStatus(_id, 'denied')} className="btn btn-primary btn-xs mx-1">Deny</button>
+        <button disabled={status !== 'pending'} onClick={() => handleStatus(_id, 'approved')} className="btn btn-success btn-xs mx-1">Approve</button>
+        <button disabled={status !== 'pending'} onClick={() => handleStatus(_id, 'denied')} className="btn btn-error btn-xs mx-1">Deny</button>
         <button onClick={() => handleFeedback(_id)} className="btn btn-primary btn-xs mx-1">Send Feedback</button>
 
       </td>
