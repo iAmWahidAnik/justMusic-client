@@ -8,7 +8,7 @@ const ClassCard = ({ perClass }) => {
             <div className="card-body">
                 <h2 className="card-title">
                     {className}
-                    <div className="badge badge-primary">{status}</div>
+                    <div className={`badge ${status === 'approved' ? 'badge-success' : status === 'pending' ? 'badge-primary' : 'badge-error'}`}>{status}</div>
                 </h2>
                 <p>{instructorName}</p>
                 <p className='text-sm'>{feedback && `Feedback : ${feedback}`}</p>

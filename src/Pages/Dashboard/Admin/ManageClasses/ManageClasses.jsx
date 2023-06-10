@@ -38,7 +38,7 @@ const ManageClasses = () => {
                     <tbody>
                         {/* row 1 */}
                         {
-                            allClass.map(perClass => <TableData key={perClass._id} perClass={perClass}></TableData>)
+                            allClass.map(perClass => <TableData key={perClass._id} perClass={perClass} refetch={refetch}></TableData>)
                         }
                     </tbody>
                 </table>

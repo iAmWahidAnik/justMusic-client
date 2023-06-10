@@ -2,8 +2,21 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const TableData = ({ perClass }) => {
+const TableData = ({ perClass, refetch }) => {
   const { _id, className, classImage, instructorName, instructorEmail, availableSeat, price, status, totalEnrolledStudent } = perClass;
+
+  const handleStatus = (id, status) => {
+    axios.patch(`http://localhost:3000/updatestatus/${id}?status=${status}`)
+    .then(res => {
+      if(res.data.modifiedCount > 0){
+        refetch();
+        Swal.fire({
+          icon: 'success',
+          title: `Class ${status} successfully`
+        });
+      }
+    })
+  }
 
   const handleFeedback = async (id) => {
     const { value } = await Swal.fire({
@@ -14,7 +27,7 @@ const TableData = ({ perClass }) => {
     })
 
     if (value) {
-      const newFb = {value}
+      const newFb = { value }
       axios.patch(`http://localhost:3000/updatefb?id=${id}`, newFb)
         .then(res => {
           if (res.data.modifiedCount > 0) {
@@ -33,41 +46,41 @@ const TableData = ({ perClass }) => {
     }
   }
 
-  const handleApprove = async (id, status) => {
-    try {
-      const response = await axios.patch(`http://localhost:3000/updatestatus/${id}?status=${status}`);
-      const updatedClass = response.data;
-      console.log(updatedClass);
-      if (updatedClass.modifiedCount > 0) {
-        refetch();
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer);
-            toast.addEventListener('mouseleave', Swal.resumeTimer);
-          }
-        });
+  // const handleApprove = async (id, status) => {
+  //   try {
+  //     const response = await axios.patch(`http://localhost:3000/updatestatus/${id}?status=${status}`);
+  //     const updatedClass = response.data;
+  //     console.log(updatedClass);
+  //     if (updatedClass.modifiedCount > 0) {
+  //       refetch();
+  //       const Toast = Swal.mixin({
+  //         toast: true,
+  //         position: 'top-end',
+  //         showConfirmButton: false,
+  //         timer: 3000,
+  //         timerProgressBar: true,
+  //         didOpen: (toast) => {
+  //           toast.addEventListener('mouseenter', Swal.stopTimer);
+  //           toast.addEventListener('mouseleave', Swal.resumeTimer);
+  //         }
+  //       });
 
-        Toast.fire({
-          icon: 'success',
-          title: 'Status Updated successfully'
-        });
-      }
-    } catch (error) {
-      // Handle error
-      console.log('error hoia geseeeee');
-    }
-  };
+  //       Toast.fire({
+  //         icon: 'success',
+  //         title: 'Status Updated successfully'
+  //       });
+  //     }
+  //   } catch (error) {
+  //     // Handle error
+  //     console.log('error hoia geseeeee');
+  //   }
+  // };
 
-  const { refetch } = useQuery({
-    queryKey: ['updateClass'],
-    queryFn: () => handleApprove(id, status),
-    enabled: false,
-  });
+  // const { refetch } = useQuery({
+  //   queryKey: ['updateClass'],
+  //   queryFn: () => handleApprove(id, status),
+  //   enabled: false,
+  // });
 
   // const handleApprove = (id, status) => {
   //     const { data: updatedClass, refetch, isLoading } = useQuery({
@@ -122,11 +135,11 @@ const TableData = ({ perClass }) => {
         <p className='text-right'>${price}</p>
       </td>
       <td>
-        <p className='badge badge-error'>{status}</p>
+        <p className={`badge ${status === 'approved' ? 'badge-success' : status === 'pending' ? 'badge-primary' : 'badge-error'}`}>{status}</p>
       </td>
       <td>
-        <button disabled={status !== 'pending'} onClick={() => handleApprove(_id, 'approved')} className="btn btn-primary btn-xs mx-1">Approve</button>
-        <button disabled={status !== 'pending'} onClick={() => handleApprove(_id, 'deny')} className="btn btn-primary btn-xs mx-1">Deny</button>
+        <button disabled={status !== 'pending'} onClick={() => handleStatus(_id, 'approved')} className="btn btn-primary btn-xs mx-1">Approve</button>
+        <button disabled={status !== 'pending'} onClick={() => handleStatus(_id, 'denied')} className="btn btn-primary btn-xs mx-1">Deny</button>
         <button onClick={() => handleFeedback(_id)} className="btn btn-primary btn-xs mx-1">Send Feedback</button>
 
       </td>
