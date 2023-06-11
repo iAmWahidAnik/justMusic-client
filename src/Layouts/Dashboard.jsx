@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import useCheckRole from '../hooks/useCheckRole';
 
 const Dashboard = () => {
@@ -9,18 +9,25 @@ const Dashboard = () => {
     const menuItems =
         checkRole?.data === 'admin' ?
             <>
-                <li><Link to='/dashboard/manageclasses'>Manage Classes</Link></li>
-                <li><Link to='/dashboard/manageusers'>Manage Users</Link></li>
+                <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                } to='/dashboard/manageclasses'>Manage Classes</NavLink></li>
+                <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                } to='/dashboard/manageusers'>Manage Users</NavLink></li>
             </> :
             checkRole?.data === 'instructor' ?
                 <>
-                    <li><Link to='/dashboard/addclass'>Add a Class</Link></li>
-                    <li><Link to='/dashboard/myclasses'>My Classes</Link></li>
+                    <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                    } to='/dashboard/addclass'>Add a Class</NavLink></li>
+                    <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                    } to='/dashboard/myclasses'>My Classes</NavLink></li>
                 </> :
                 <>
-                    <li><Link to='/dashboard/selectedclass'>My Selected Classes</Link></li>
-                    <li><Link to='/dashboard/paymenthistory'>My Payment History</Link></li>
-                    <li><Link to='/dashboard/enrolledclass'>My Enrolled Classes</Link></li>
+                    <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                    } to='/dashboard/selectedclass'>My Selected Classes</NavLink></li>
+                    <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                    } to='/dashboard/paymenthistory'>My Payment History</NavLink></li>
+                    <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                    } to='/dashboard/enrolledclass'>My Enrolled Classes</NavLink></li>
                 </>
     // if (checkRole === 'admin') {
     //     const menuItems =

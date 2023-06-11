@@ -4,9 +4,9 @@ import React from 'react';
 import ClassCard from './classCard';
 
 const PopularClass = () => {
-    const {data: popularClasses = [], isLoading, refetch} = useQuery({
+    const { data: popularClasses = [], isLoading, refetch } = useQuery({
         queryKey: ['popularCLasses'],
-        queryFn: async() => {
+        queryFn: async () => {
             const response = axios.get('http://localhost:3000/popularclass')
             return response;;
         }
@@ -19,25 +19,13 @@ const PopularClass = () => {
     }
     const classes = popularClasses?.data;
     return (
-        <div className='my-20 grid grid-cols-3  gap-5'>
-            {
-                classes.map(perClass => <ClassCard key={perClass._id} perClass={perClass}></ClassCard>)
-            }
-            {/* <div className="card w-96 bg-base-100 shadow-xl">
-                <figure><img src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></figure>
-                <div className="card-body">
-                    <h2 className="card-title">
-                        Shoes!
-                        <div className="badge badge-secondary">NEW</div>
-                    </h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                        <div className="badge badge-outline">Fashion</div>
-                        <div className="badge badge-outline">Products</div>
-                    </div>
-                </div>
-            </div> */}
-        </div>
+        <>
+            <h1 className='text-5xl font-semibold text-primary border-l-8 border-primary pl-3 mt-20'>Popular Classes</h1>
+            <div className='my-20 grid grid-cols-3  gap-5'>
+                {
+                    classes.map(perClass => <ClassCard key={perClass._id} perClass={perClass}></ClassCard>)
+                }
+            </div></>
     );
 };
 

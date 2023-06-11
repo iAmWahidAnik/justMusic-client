@@ -2,6 +2,8 @@ import React from 'react';
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 
+// TODO : have to fix this carousel 
+
 const Banner = () => {
     return (
         <div>

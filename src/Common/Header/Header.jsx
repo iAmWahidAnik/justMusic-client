@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProvider';
 import Swal from 'sweetalert2';
 
@@ -31,10 +31,14 @@ const Header = () => {
     }
 
     const ulItems = <>
-        <li><Link>Home</Link></li>
-        <li><Link to='/instructors'>Instructors</Link></li>
-        <li><Link to='/classes'>Classes</Link></li>
-        {user && <li><Link to='/dashboard'>Dashboard</Link></li>}
+        <li><NavLink to='/' className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+        }>Home</NavLink></li>
+        <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+        } to='/instructors'>Instructors</NavLink></li>
+        <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+        } to='/classes'>Classes</NavLink></li>
+        {user && <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+        } to='/dashboard'>Dashboard</NavLink></li>}
         {user && <li><button onClick={handleLogout} className='btn btn-sm lowercase'>Logout</button></li>}
     </>
     return (
@@ -49,7 +53,7 @@ const Header = () => {
                             {ulItems}
                         </ul>
                     </div>
-                    <a className="btn btn-ghost normal-case text-2xl font-bold">JustMusic</a>
+                    <a className="btn btn-ghost normal-case text-2xl text-error font-bold">JustMusic</a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 font-semibold">
