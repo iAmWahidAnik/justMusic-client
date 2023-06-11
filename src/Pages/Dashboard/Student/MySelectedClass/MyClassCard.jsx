@@ -15,7 +15,7 @@ const MyClassCard = ({ myClass, refetch }) => {
     }
 
     const handleDelete = id => {
-        axios.delete(`http://localhost:3000/deletmyclass/${id}`)
+        axios.delete(`http://localhost:3000/deletmyclass/${id}?email=${user?.email}`)
             .then(res => {
                 if(res.data.deletedCount > 0){
                     refetch()

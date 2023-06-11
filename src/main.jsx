@@ -17,6 +17,9 @@ import ManageClasses from './Pages/Dashboard/Admin/ManageClasses/ManageClasses'
 import ManageUsers from './Pages/Dashboard/Admin/ManageUsers/ManageUsers'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Payment from './Pages/Dashboard/StudentPayment/Payment'
+import MyPaymentHistory from './Pages/Dashboard/Student/MyPaymentHistory/MyPaymentHistory'
+import Instructors from './Pages/Instructors/Instructors'
+import Classes from './Pages/Classes/Classes'
 
 const queryClient = new QueryClient();
 
@@ -30,7 +33,14 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home></Home>
       },
-
+      {
+        path: 'instructors',
+        element: <Instructors></Instructors>
+      },
+      {
+        path:'classes',
+        element: <Classes></Classes>
+      }
     ]
   },
   {
@@ -48,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: 'payment/:price/:email/:classId',
         element: <Payment></Payment>
+      },
+      {
+        path: 'paymenthistory',
+        element: <MyPaymentHistory></MyPaymentHistory>
       },
       // instructor route
       {

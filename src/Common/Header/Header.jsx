@@ -32,8 +32,8 @@ const Header = () => {
 
     const ulItems = <>
         <li><Link>Home</Link></li>
-        <li><Link>Instructors</Link></li>
-        <li><Link>Classes</Link></li>
+        <li><Link to='/instructors'>Instructors</Link></li>
+        <li><Link to='/classes'>Classes</Link></li>
         {user && <li><Link to='/dashboard'>Dashboard</Link></li>}
         {user && <li><button onClick={handleLogout} className='btn btn-sm lowercase'>Logout</button></li>}
     </>

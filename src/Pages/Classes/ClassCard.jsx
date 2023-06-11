@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../../Providers/AuthProvider';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import React from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../../Providers/AuthProvider';
+import { useState } from 'react';
 
 const ClassCard = ({ perClass }) => {
     const { _id, className, classImage, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent } = perClass;
+
     const [disable, setDisable] = useState(false)
 
     //user from firebase

@@ -19,6 +19,7 @@ const Dashboard = () => {
                 </> :
                 <>
                     <li><Link to='/dashboard/selectedclass'>My Selected Classes</Link></li>
+                    <li><Link to='/dashboard/paymenthistory'>My Payment History</Link></li>
                     <li><Link to='/dashboard/enrolledclass'>My Enrolled Classes</Link></li>
                 </>
     // if (checkRole === 'admin') {
