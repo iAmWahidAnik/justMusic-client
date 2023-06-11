@@ -1,9 +1,18 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../../../../Providers/AuthProvider';
 
 const MyClassCard = ({ myClass, refetch }) => {
-    const { _id, classId, className, classImage, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent } = myClass;
+    const { _id,  className, classImage, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent } = myClass;
+    const { user, loading } = useContext(AuthContext);
+    if (loading) {
+        return <button className="btn">
+            <span className="loading loading-spinner"></span>
+            loading
+        </button>
+    }
 
     const handleDelete = id => {
         axios.delete(`http://localhost:3000/deletmyclass/${id}`)
@@ -31,7 +40,7 @@ const MyClassCard = ({ myClass, refetch }) => {
                     <div className="badge badge-outline">price : ${price}</div>
                 </div>
                 <div>
-                    <button className='btn btn-primary btn-sm my-3 mx-2'>pay</button>
+                    <Link to={`/dashboard/payment/${price}/${user?.email}/${_id}`}><button className='btn btn-primary btn-sm my-3 mx-2'>pay</button></Link>
                     <button onClick={() => handleDelete(_id)} className='btn btn-error btn-sm my-3 mx-2'>delete</button>
                 </div>
             </div>

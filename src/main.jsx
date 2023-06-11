@@ -16,6 +16,7 @@ import MyClasses from './Pages/Dashboard/Instructor/MyClasses/MyClasses'
 import ManageClasses from './Pages/Dashboard/Admin/ManageClasses/ManageClasses'
 import ManageUsers from './Pages/Dashboard/Admin/ManageUsers/ManageUsers'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Payment from './Pages/Dashboard/StudentPayment/Payment'
 
 const queryClient = new QueryClient();
 
@@ -38,11 +39,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'selectedclass',
-        element: <MySelectedClass></MySelectedClass>
+        element: <MySelectedClass></MySelectedClass>,
       },
       {
         path: 'enrolledclass',
         element: <MyEnrolledClass></MyEnrolledClass>
+      },
+      {
+        path: 'payment/:price/:email/:classId',
+        element: <Payment></Payment>
       },
       // instructor route
       {

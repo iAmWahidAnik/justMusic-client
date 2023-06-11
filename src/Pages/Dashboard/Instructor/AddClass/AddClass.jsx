@@ -30,9 +30,9 @@ const AddClass = () => {
                 if (imageResponse.success) {
                     const classImageLink = imageResponse.data.display_url;
                     const { className, instructorName, instructorEmail, availableSeat, price } = data;
-                    parseInt(price);
-                    parseInt(availableSeat);
-                    const newClass = { className, classImage: classImageLink, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent: 0, feedback: '', status: 'pending' };
+                    const intPrice = parseInt(price);
+                    const intSeat = parseInt(availableSeat);
+                    const newClass = { className, classImage: classImageLink, instructorName, instructorEmail, availableSeat: intSeat, price: intPrice, totalEnrolledStudent: 0, feedback: '', status: 'pending' };
 
                     axios.post('http://localhost:3000/addclass', newClass)
                         .then(res => {
