@@ -7,7 +7,7 @@ const PopularClass = () => {
     const { data: popularClasses = [], isLoading, refetch } = useQuery({
         queryKey: ['popularCLasses'],
         queryFn: async () => {
-            const response = axios.get('http://localhost:3000/popularclass')
+            const response = axios.get('https://just-music-server-side.vercel.app/popularclass')
             return response;
         }
     })

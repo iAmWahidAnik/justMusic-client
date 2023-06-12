@@ -38,7 +38,7 @@ const AddClass = () => {
                     const intSeat = parseInt(availableSeat);
                     const newClass = { className, classImage: classImageLink, instructorName, instructorEmail, availableSeat: intSeat, price: intPrice, totalEnrolledStudent: 0, feedback: '', status: 'pending' };
 
-                    axios.post('http://localhost:3000/addclass', newClass, {
+                    axios.post('https://just-music-server-side.vercel.app/addclass', newClass, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }

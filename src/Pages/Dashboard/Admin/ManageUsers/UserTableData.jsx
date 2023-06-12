@@ -11,7 +11,7 @@ const UserTableData = ({ user, refetch }) => {
 
     const handleRole = (id, role) => {
         const update = { role }
-        axios.patch(`http://localhost:3000/updaterole?id=${id}`, update, {
+        axios.patch(`https://just-music-server-side.vercel.app/updaterole?id=${id}`, update, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

@@ -23,7 +23,7 @@ const CheckoutForm = ({ amount, email, classId }) => {
     }
 
     useEffect(() => {
-        axios.post('http://localhost:3000/paymentintent', { price: amount })
+        axios.post('https://just-music-server-side.vercel.app/paymentintent', { price: amount })
             .then(res => {
                 // console.log(res.data.clientSecret);
                 setClientSecret(res.data.clientSecret);
@@ -83,7 +83,7 @@ const CheckoutForm = ({ amount, email, classId }) => {
         if (paymentIntent.status === 'succeeded') {
             const transactionId = paymentIntent.id;
 
-            axios.patch(`http://localhost:3000/paymentsuccess?email=${email}&classId=${classId}`, { transactionId, paymentStatus: 'successful', paymentDate: new Date() }, {
+            axios.patch(`https://just-music-server-side.vercel.app/paymentsuccess?email=${email}&classId=${classId}`, { transactionId, paymentStatus: 'successful', paymentDate: new Date() }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

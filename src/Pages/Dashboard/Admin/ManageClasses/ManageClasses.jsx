@@ -11,7 +11,7 @@ const ManageClasses = () => {
     const { data: classes, isLoading, refetch } = useQuery({
         queryKey: ['allClass'],
         queryFn: async () => {
-            const response = await axios.get('http://localhost:3000/allclass', {
+            const response = await axios.get('https://just-music-server-side.vercel.app/allclass', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

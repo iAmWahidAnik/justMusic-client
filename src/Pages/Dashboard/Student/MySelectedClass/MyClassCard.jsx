@@ -19,7 +19,7 @@ const MyClassCard = ({ myClass, refetch }) => {
         if (!token) {
             return
         }
-        axios.delete(`http://localhost:3000/deletmyclass/${id}?email=${user?.email}`, {
+        axios.delete(`https://just-music-server-side.vercel.app/deletmyclass/${id}?email=${user?.email}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

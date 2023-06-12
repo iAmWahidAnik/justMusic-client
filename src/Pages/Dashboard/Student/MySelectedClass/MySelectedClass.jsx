@@ -19,7 +19,7 @@ const MySelectedClass = () => {
     const { data: myAddedClass, isLoading, refetch } = useQuery({
         queryKey: ['myAddedClass'],
         queryFn: async () => {
-            const response = axios.get(`http://localhost:3000/myselectedclass?email=${user?.email}`, {
+            const response = axios.get(`https://just-music-server-side.vercel.app/myselectedclass?email=${user?.email}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

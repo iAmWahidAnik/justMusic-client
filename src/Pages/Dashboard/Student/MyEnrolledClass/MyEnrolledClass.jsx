@@ -20,7 +20,7 @@ const MyEnrolledClass = () => {
     const { data: myEnrolledClass, isLoading } = useQuery({
         queryKey: ['myEnrolledClass'],
         queryFn: async () => {
-            const response = axios.get(`http://localhost:3000/enrolledclass?email=${user?.email}`, {
+            const response = axios.get(`https://just-music-server-side.vercel.app/enrolledclass?email=${user?.email}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

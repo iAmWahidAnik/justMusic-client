@@ -13,7 +13,7 @@ const useCheckRole = () => {
         queryKey: ['checkRole', user?.email],
         enabled: !loading,
         queryFn: async () => {
-            const response = await axios.get(`http://localhost:3000/users/checkrole/${user?.email}`, {
+            const response = await axios.get(`https://just-music-server-side.vercel.app/users/checkrole/${user?.email}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

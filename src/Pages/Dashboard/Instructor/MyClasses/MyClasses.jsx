@@ -14,7 +14,7 @@ const MyClasses = () => {
         queryKey: ['instructorClasses', user?.email],
         enabled: !loading,
         queryFn: async () => {
-            const response = await axios.get(`http://localhost:3000/classes?email=${user?.email}`, {
+            const response = await axios.get(`https://just-music-server-side.vercel.app/classes?email=${user?.email}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

@@ -9,7 +9,7 @@ const TableData = ({ perClass, refetch }) => {
     return
   }
   const handleStatus = (id, status) => {
-    axios.patch(`http://localhost:3000/updatestatus/${id}?status=${status}`, { role: 'admin' }, {
+    axios.patch(`https://just-music-server-side.vercel.app/updatestatus/${id}?status=${status}`, { role: 'admin' }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -35,7 +35,7 @@ const TableData = ({ perClass, refetch }) => {
 
     if (value) {
       const newFb = { value }
-      axios.patch(`http://localhost:3000/updatefb?id=${id}`, newFb, {
+      axios.patch(`https://just-music-server-side.vercel.app/updatefb?id=${id}`, newFb, {
         headers: {
           Authorization: `Bearer ${token}`
         }

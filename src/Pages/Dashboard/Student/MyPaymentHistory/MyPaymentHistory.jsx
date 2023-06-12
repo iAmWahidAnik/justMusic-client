@@ -20,7 +20,7 @@ const MyPaymentHistory = () => {
     const { data: myPaymentHistory, isLoading } = useQuery({
         queryKey: ['paymentHistory'],
         queryFn: async () => {
-            const response = axios.get(`http://localhost:3000/payhistory?email=${user?.email}`, {
+            const response = axios.get(`https://just-music-server-side.vercel.app/payhistory?email=${user?.email}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

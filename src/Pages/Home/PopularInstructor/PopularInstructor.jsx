@@ -7,7 +7,7 @@ const PopularInstructor = () => {
     const { data: popularInstructors = [], isLoading, refetch } = useQuery({
         queryKey: ['popularInstructors'],
         queryFn: async () => {
-            const response = axios.get('http://localhost:3000/popularinstructor')
+            const response = axios.get('https://just-music-server-side.vercel.app/popularinstructor')
             return response;;
         }
     })

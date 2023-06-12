@@ -54,7 +54,7 @@ const Login = () => {
                 const userEmail = user.email;
 
                 const newUser = { displayName: userName, email: userEmail, role: 'student' };
-                axios.post('http://localhost:3000/setuser', newUser)
+                axios.post('https://just-music-server-side.vercel.app/setuser', newUser)
                     .then(res => {
                         // console.log(res.data);
                         navigate('/');

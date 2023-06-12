@@ -40,7 +40,7 @@ const ClassCard = ({ perClass }) => {
             return
         }
         const studentAddedClass = { classId: id, studentEmail: user.email, paymentStatus: 'pending' }
-        axios.post(`http://localhost:3000/selectclass?email=${user?.email}`, studentAddedClass, {
+        axios.post(`https://just-music-server-side.vercel.app/selectclass?email=${user?.email}`, studentAddedClass, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

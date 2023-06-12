@@ -28,7 +28,7 @@ const Register = () => {
                 updatePro(data.name, data.photo)
                     .then(res => {
                         const newUser = { photoURL: data.photo, displayName: data.name, email: data.email, role: 'student' };
-                        axios.post('http://localhost:3000/setuser', newUser)
+                        axios.post('https://just-music-server-side.vercel.app/setuser', newUser)
                             .then(res => {
                                 setError('');
                                 if (res.data.insertedId) {
@@ -72,7 +72,7 @@ const Register = () => {
                 const photoURL = user.photoURL;
 
                 const newUser = { photoURL, displayName: userName, email: userEmail, role: 'student' };
-                axios.post('http://localhost:3000/setuser', newUser)
+                axios.post('https://just-music-server-side.vercel.app/setuser', newUser)
                     .then(res => {
                         setGoogleError('');
                         if (res.data.insertedId) {

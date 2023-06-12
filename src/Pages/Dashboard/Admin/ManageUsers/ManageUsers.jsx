@@ -11,7 +11,7 @@ const ManageUsers = () => {
     const { data: users, isLoading, refetch } = useQuery({
         queryKey: ['allUser'],
         queryFn: async () => {
-            const response = await axios.get('http://localhost:3000/allusers', {
+            const response = await axios.get('https://just-music-server-side.vercel.app/allusers', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
