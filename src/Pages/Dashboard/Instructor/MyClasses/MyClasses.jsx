@@ -6,16 +6,24 @@ import ClassCard from './ClassCard';
 
 const MyClasses = () => {
     const { user, loading } = useContext(AuthContext);
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return
+    }
     const { data: myClassesArray, isLoading } = useQuery({
         queryKey: ['instructorClasses', user?.email],
         enabled: !loading,
         queryFn: async () => {
-            const response = await axios.get(`http://localhost:3000/classes?email=${user?.email}`)
+            const response = await axios.get(`http://localhost:3000/classes?email=${user?.email}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             return response;
         }
     })
 
-    if (isLoading) { 
+    if (isLoading) {
         return <button className="btn">
             <span className="loading loading-spinner"></span>
             loading

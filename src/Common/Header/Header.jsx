@@ -64,7 +64,7 @@ const Header = () => {
                     {user ?
                         <div className="avatar">
                             <div className="w-16 rounded">
-                                <img src={user.photoURL} alt="Tailwind-CSS-Avatar-component" />
+                                <img src={user.photoURL} alt="user DP" />
                             </div>
                         </div>
                         : <Link to='/login' className="btn">Login</Link>}

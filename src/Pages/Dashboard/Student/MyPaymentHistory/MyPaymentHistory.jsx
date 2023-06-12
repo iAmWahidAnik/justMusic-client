@@ -6,6 +6,10 @@ import PaymentTableData from './PaymentTableData';
 
 const MyPaymentHistory = () => {
     const { user, loading } = useContext(AuthContext);
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return
+    }
     if (loading) {
         return <button className="btn">
             <span className="loading loading-spinner"></span>
@@ -16,7 +20,11 @@ const MyPaymentHistory = () => {
     const { data: myPaymentHistory, isLoading } = useQuery({
         queryKey: ['paymentHistory'],
         queryFn: async () => {
-            const response = axios.get(`http://localhost:3000/payhistory?email=${user?.email}`)
+            const response = axios.get(`http://localhost:3000/payhistory?email=${user?.email}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             return response;
         }
     })
@@ -26,7 +34,7 @@ const MyPaymentHistory = () => {
             loading
         </button>
     }
-    const paymentHistory = myPaymentHistory.data;
+    const paymentHistory = myPaymentHistory?.data;
     return (
         <div className="overflow-x-auto my-20">
             <table className="table">

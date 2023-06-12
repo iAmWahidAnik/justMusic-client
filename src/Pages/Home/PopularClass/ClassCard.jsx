@@ -2,10 +2,12 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../../Providers/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const ClassCard = ({ perClass }) => {
     const { _id, className, classImage, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent } = perClass;
-    const [disable, setDisable] = useState(false)
+    const [disable, setDisable] = useState(false);
+    const navigate = useNavigate();
 
     //user from firebase
     const { user, loading } = useContext(AuthContext);
@@ -17,8 +19,31 @@ const ClassCard = ({ perClass }) => {
     }
 
     const handleSelectClass = (id) => {
+        {
+            !user && Swal.fire({
+                title: 'Please Log-in First',
+                text: "Log-in to select the class",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'go to login!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login')
+                }
+            })
+        }
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return
+        }
         const studentAddedClass = { classId: id, studentEmail: user.email, paymentStatus: 'pending' }
-        axios.post(`http://localhost:3000/selectclass?email=${user?.email}`, studentAddedClass)
+        axios.post(`http://localhost:3000/selectclass?email=${user?.email}`, studentAddedClass, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(res => {
                 if (res.data.insertedId) {
                     setDisable(true)
@@ -38,7 +63,7 @@ const ClassCard = ({ perClass }) => {
     }
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
-            <figure><img src={classImage} alt="Shoes" /></figure>
+            <figure><img className='h-56 w-full object-cover' src={classImage} alt="Shoes" /></figure>
             <div className="card-body">
                 <h2 className="card-title">
                     {className}

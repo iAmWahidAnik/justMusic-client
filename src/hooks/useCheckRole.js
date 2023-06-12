@@ -4,18 +4,24 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 const useCheckRole = () => {
-    const {user, loading} = useContext(AuthContext);
-
-    // axios.get(`http://localhost:3000/users/checkrole/${}`)
-    const {data:checkRole, isLoading} = useQuery({
+    const { user, loading } = useContext(AuthContext);
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return
+    }
+    const { data: checkRole, isLoading } = useQuery({
         queryKey: ['checkRole', user?.email],
         enabled: !loading,
-        queryFn: async() => {
-            const response = await axios.get(`http://localhost:3000/users/checkrole/${user?.email}`)
+        queryFn: async () => {
+            const response = await axios.get(`http://localhost:3000/users/checkrole/${user?.email}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             return response;
         }
     })
-    return checkRole;
+    return [checkRole, isLoading];
 }
 
 export default useCheckRole;

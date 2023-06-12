@@ -20,6 +20,10 @@ import Payment from './Pages/Dashboard/StudentPayment/Payment'
 import MyPaymentHistory from './Pages/Dashboard/Student/MyPaymentHistory/MyPaymentHistory'
 import Instructors from './Pages/Instructors/Instructors'
 import Classes from './Pages/Classes/Classes'
+import DashboardLanding from './Pages/Dashboard/DashboardLanding/DashboardLanding'
+import StudentRoute from './Routes/studentRoute'
+import InstructorRoute from './Routes/InstructorRoute'
+import AdminRoute from './Routes/AdminRoute'
 
 const queryClient = new QueryClient();
 
@@ -38,7 +42,7 @@ const router = createBrowserRouter([
         element: <Instructors></Instructors>
       },
       {
-        path:'classes',
+        path: 'classes',
         element: <Classes></Classes>
       }
     ]
@@ -46,40 +50,45 @@ const router = createBrowserRouter([
   {
     path: 'dashboard',
     element: <Dashboard></Dashboard>,
+    errorElement: <ErrorElement></ErrorElement>,
     children: [
       {
+        path: '',
+        element: <DashboardLanding></DashboardLanding>
+      },
+      {
         path: 'selectedclass',
-        element: <MySelectedClass></MySelectedClass>,
+        element: <StudentRoute><MySelectedClass></MySelectedClass></StudentRoute>,
       },
       {
         path: 'enrolledclass',
-        element: <MyEnrolledClass></MyEnrolledClass>
+        element: <StudentRoute><MyEnrolledClass></MyEnrolledClass></StudentRoute>
       },
       {
         path: 'payment/:price/:email/:classId',
-        element: <Payment></Payment>
+        element: <StudentRoute><Payment></Payment></StudentRoute>
       },
       {
         path: 'paymenthistory',
-        element: <MyPaymentHistory></MyPaymentHistory>
+        element: <StudentRoute><MyPaymentHistory></MyPaymentHistory></StudentRoute>
       },
       // instructor route
       {
         path: 'addclass',
-        element: <AddClass></AddClass>
+        element: <InstructorRoute><AddClass></AddClass></InstructorRoute>
       },
       {
         path: 'myclasses',
-        element: <MyClasses></MyClasses>
+        element: <InstructorRoute><MyClasses></MyClasses></InstructorRoute>
       },
       //Admin route
       {
         path: 'manageclasses',
-        element: <ManageClasses></ManageClasses>
+        element: <AdminRoute><ManageClasses></ManageClasses></AdminRoute>
       },
       {
         path: 'manageusers',
-        element: <ManageUsers></ManageUsers>
+        element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
       }
     ]
   },

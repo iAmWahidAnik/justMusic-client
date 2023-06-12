@@ -4,10 +4,18 @@ import React from 'react';
 import TableData from './TableData';
 
 const ManageClasses = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return
+    }
     const { data: classes, isLoading, refetch } = useQuery({
         queryKey: ['allClass'],
         queryFn: async () => {
-            const response = await axios.get('http://localhost:3000/allclass')
+            const response = await axios.get('http://localhost:3000/allclass', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             return response
         }
     })

@@ -4,10 +4,18 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const ManageUsers = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return
+    }
     const { data: users, isLoading, refetch } = useQuery({
         queryKey: ['allUser'],
         queryFn: async () => {
-            const response = await axios.get('http://localhost:3000/allusers')
+            const response = await axios.get('http://localhost:3000/allusers', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             return response
         }
     })
@@ -35,7 +43,7 @@ const ManageUsers = () => {
                     <tbody>
                         {/* row 1 */}
                         {
-                            allUsers.map(user => <UserTableData key={user._id} user={user} refetch={refetch}></UserTableData> )
+                            allUsers.map(user => <UserTableData key={user._id} user={user} refetch={refetch}></UserTableData>)
                         }
                     </tbody>
                 </table>

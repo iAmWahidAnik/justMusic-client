@@ -19,7 +19,7 @@ const Classes = () => {
     }
     const classes = allClasses.data;
     return (
-        <div className='my-20 grid grid-cols-3'>
+        <div className='my-20 grid grid-cols-3 gap-5'>
             {
                 classes.map(perClass => <ClassCard key={perClass._id} perClass={perClass}></ClassCard>)
             }

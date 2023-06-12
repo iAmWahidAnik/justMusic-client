@@ -11,9 +11,10 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
     // const [value, setValue] = useState('');
-    const { googleLogin } = useContext(AuthContext);
+    const { googleLogin, registerUser, updatePro, logout } = useContext(AuthContext);
     const [passError, setPassError] = useState('');
     const [googleError, setGoogleError] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
@@ -21,7 +22,43 @@ const Register = () => {
         if (data.password !== data.rePassword) {
             return setPassError("password didn't matched properly");
         }
-        console.log(data)
+        registerUser(data.email, data.password)
+            .then(res => {
+                // const user = res.user;
+                updatePro(data.name, data.photo)
+                    .then(res => {
+                        const newUser = { photoURL: data.photo, displayName: data.name, email: data.email, role: 'student' };
+                        axios.post('http://localhost:3000/setuser', newUser)
+                            .then(res => {
+                                setError('');
+                                if (res.data.insertedId) {
+                                    logout();
+                                    navigate('/login');
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        }
+                                    })
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: 'User Created successfully, Now Login'
+                                    })
+                                }
+                            })
+                    })
+                    .catch(error => {
+                        setError(error.message)
+                    })
+            })
+            .catch(error => {
+                setError(error.message)
+            })
     };
 
     const handleGoogleLogin = (e) => {
@@ -32,11 +69,12 @@ const Register = () => {
                 const user = result.user;
                 const userName = user.displayName;
                 const userEmail = user.email;
+                const photoURL = user.photoURL;
 
-                const newUser = { displayName: userName, email: userEmail, role: 'student' };
+                const newUser = { photoURL, displayName: userName, email: userEmail, role: 'student' };
                 axios.post('http://localhost:3000/setuser', newUser)
                     .then(res => {
-                        console.log(res.data);
+                        setGoogleError('');
                         if (res.data.insertedId) {
                             navigate('/');
                             const Toast = Swal.mixin({
@@ -118,6 +156,7 @@ const Register = () => {
                     <div>
                         <input {...register("rePassword", { required: true })} type="password" placeholder="confirm Password" className="input bg-transparent border-b-2 border-white border-0 rounded-none w-full max-w-xs text-white placeholder:font-bold focus:outline-none" />
                         <p className='text-error text-sm pl-5 mt-5' role="alert">{passError}</p>
+                        <p className='text-error text-sm pl-5 mt-5' role="alert">{error}</p>
                     </div>
                     <div>
                         <input className='btn bg-white font-bold rounded-3xl hover:translate-x-2' type="submit" value="Register" />

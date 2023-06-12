@@ -9,13 +9,38 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const Login = () => {
-    const { googleLogin } = useContext(AuthContext);
+    const { googleLogin, login } = useContext(AuthContext);
     const [showPass, setShowPass] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
     const [googleError, setGoogleError] = useState('');
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
-        console.log(data)
+        login(data.email, data.password)
+            .then(res => {
+                setError('');
+                navigate('/')
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Login successful'
+                })
+
+            })
+            .catch(error => {
+                setError(error.message)
+            })
     };
 
 
@@ -67,11 +92,11 @@ const Login = () => {
                     {/* <label className="label">
                         <span className="label-text">What is your email?</span>
                     </label> */}
-                    <input {...register("email", { required: true })} type="email" placeholder="username or email" className="input rounded-3xl py-8 w-full max-w-xs placeholder:font-bold placeholder:text-rose-950 shadow-xl font-bold text-rose-950" />
+                    <input {...register("email", { required: true })} type="email" placeholder="username or email" className="input rounded-3xl py-8 w-full max-w-xs placeholder:font-bold placeholder:text-rose-950 shadow-xl font-bold text-rose-950 focus:outline-none" />
                     {errors.email?.type === 'required' && <p className='text-error text-sm pl-5 mt-5' role="alert">email is required</p>}
                 </div>
                 <div className="form-control w-full max-w-xs relative">
-                    <input {...register("password", { required: true })} type={showPass ? 'text' : 'password'} placeholder="password" className="input rounded-3xl py-8 w-full max-w-xs placeholder:font-bold placeholder:text-rose-950 shadow-xl font-bold text-rose-950" />
+                    <input {...register("password", { required: true })} type={showPass ? 'text' : 'password'} placeholder="password" className="input rounded-3xl py-8 w-full max-w-xs placeholder:font-bold placeholder:text-rose-950 shadow-xl font-bold text-rose-950 focus:outline-none" />
                     <label className='absolute right-4 top-8'>
                         <AiFillEyeInvisible onClick={() => setShowPass(!showPass)} className={showPass ? 'text-xl' : 'hidden'}></AiFillEyeInvisible>
 
@@ -82,6 +107,7 @@ const Login = () => {
                 <div className="form-control w-full max-w-xs">
                     <input className='btn bg-rose-950 text-white rounded-3xl shadow-xl hover:bg-rose-900 hover:shadow-rose-950 hover:border-none transition-all duration-500 border-none' type="submit" value="Login" />
                 </div>
+                <p className='text-center text-red-600'>{error}</p>
                 <div className="divider">OR</div>
                 <div className='flex gap-5 mx-auto'>
                     <div>

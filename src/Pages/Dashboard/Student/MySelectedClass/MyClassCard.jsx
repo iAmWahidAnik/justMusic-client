@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { AuthContext } from '../../../../Providers/AuthProvider';
 
 const MyClassCard = ({ myClass, refetch }) => {
-    const { _id,  className, classImage, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent } = myClass;
+    const { _id, className, classImage, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent } = myClass;
     const { user, loading } = useContext(AuthContext);
     if (loading) {
         return <button className="btn">
@@ -15,9 +15,17 @@ const MyClassCard = ({ myClass, refetch }) => {
     }
 
     const handleDelete = id => {
-        axios.delete(`http://localhost:3000/deletmyclass/${id}?email=${user?.email}`)
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return
+        }
+        axios.delete(`http://localhost:3000/deletmyclass/${id}?email=${user?.email}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(res => {
-                if(res.data.deletedCount > 0){
+                if (res.data.deletedCount > 0) {
                     refetch()
                     Swal.fire({
                         icon: 'success',

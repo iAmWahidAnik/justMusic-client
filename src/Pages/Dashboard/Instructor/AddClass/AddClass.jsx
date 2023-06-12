@@ -19,6 +19,10 @@ const AddClass = () => {
 
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return
+        }
         const formData = new FormData();
         formData.append('image', data.classImage[0])
         fetch(imageHostingURL, {
@@ -34,7 +38,11 @@ const AddClass = () => {
                     const intSeat = parseInt(availableSeat);
                     const newClass = { className, classImage: classImageLink, instructorName, instructorEmail, availableSeat: intSeat, price: intPrice, totalEnrolledStudent: 0, feedback: '', status: 'pending' };
 
-                    axios.post('http://localhost:3000/addclass', newClass)
+                    axios.post('http://localhost:3000/addclass', newClass, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
                         .then(res => {
                             if (res.data.insertedId) {
                                 reset();

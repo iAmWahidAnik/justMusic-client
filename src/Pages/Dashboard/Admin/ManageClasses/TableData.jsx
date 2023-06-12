@@ -4,18 +4,25 @@ import Swal from 'sweetalert2';
 
 const TableData = ({ perClass, refetch }) => {
   const { _id, className, classImage, instructorName, instructorEmail, availableSeat, price, status, totalEnrolledStudent } = perClass;
-
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return
+  }
   const handleStatus = (id, status) => {
-    axios.patch(`http://localhost:3000/updatestatus/${id}?status=${status}`)
-    .then(res => {
-      if(res.data.modifiedCount > 0){
-        refetch();
-        Swal.fire({
-          icon: 'success',
-          title: `Class ${status} successfully`
-        });
+    axios.patch(`http://localhost:3000/updatestatus/${id}?status=${status}`, { role: 'admin' }, {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
     })
+      .then(res => {
+        if (res.data.modifiedCount > 0) {
+          refetch();
+          Swal.fire({
+            icon: 'success',
+            title: `Class ${status} successfully`
+          });
+        }
+      })
   }
 
   const handleFeedback = async (id) => {
@@ -28,7 +35,11 @@ const TableData = ({ perClass, refetch }) => {
 
     if (value) {
       const newFb = { value }
-      axios.patch(`http://localhost:3000/updatefb?id=${id}`, newFb)
+      axios.patch(`http://localhost:3000/updatefb?id=${id}`, newFb, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
         .then(res => {
           if (res.data.modifiedCount > 0) {
             Swal.fire({
@@ -37,79 +48,10 @@ const TableData = ({ perClass, refetch }) => {
             });
           }
         })
-      // Swal.fire({
-      //   icon: 'success',
-      //   title: 'Feedback Sent Successfully'
-      // });
     } else {
       Swal.fire(`Empty Input`)
     }
   }
-
-  // const handleApprove = async (id, status) => {
-  //   try {
-  //     const response = await axios.patch(`http://localhost:3000/updatestatus/${id}?status=${status}`);
-  //     const updatedClass = response.data;
-  //     console.log(updatedClass);
-  //     if (updatedClass.modifiedCount > 0) {
-  //       refetch();
-  //       const Toast = Swal.mixin({
-  //         toast: true,
-  //         position: 'top-end',
-  //         showConfirmButton: false,
-  //         timer: 3000,
-  //         timerProgressBar: true,
-  //         didOpen: (toast) => {
-  //           toast.addEventListener('mouseenter', Swal.stopTimer);
-  //           toast.addEventListener('mouseleave', Swal.resumeTimer);
-  //         }
-  //       });
-
-  //       Toast.fire({
-  //         icon: 'success',
-  //         title: 'Status Updated successfully'
-  //       });
-  //     }
-  //   } catch (error) {
-  //     // Handle error
-  //     console.log('error hoia geseeeee');
-  //   }
-  // };
-
-  // const { refetch } = useQuery({
-  //   queryKey: ['updateClass'],
-  //   queryFn: () => handleApprove(id, status),
-  //   enabled: false,
-  // });
-
-  // const handleApprove = (id, status) => {
-  //     const { data: updatedClass, refetch, isLoading } = useQuery({
-  //         queryKey: ['updateClass'],
-  //         queryFn: async () => {
-  //             const response = axios.patch(`http://localhost:3000/updatestatus/${id}?status=${status}`)
-  //             return response;
-  //         }
-  //     })
-  //     if (updatedClass.data.updatedCount > 0) {
-  //         refetch();
-  //         const Toast = Swal.mixin({
-  //             toast: true,
-  //             position: 'top-end',
-  //             showConfirmButton: false,
-  //             timer: 3000,
-  //             timerProgressBar: true,
-  //             didOpen: (toast) => {
-  //                 toast.addEventListener('mouseenter', Swal.stopTimer)
-  //                 toast.addEventListener('mouseleave', Swal.resumeTimer)
-  //             }
-  //         })
-
-  //         Toast.fire({
-  //             icon: 'success',
-  //             title: 'Status Updated successfully'
-  //         })
-  //     }
-  // }
   return (
     <tr>
       <td>

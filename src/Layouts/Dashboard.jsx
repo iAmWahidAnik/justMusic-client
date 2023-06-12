@@ -1,33 +1,47 @@
 import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import useCheckRole from '../hooks/useCheckRole';
+import { BsStack } from "react-icons/bs";
+import { MdManageAccounts, MdOutlineRemoveFromQueue, MdBookmarkAdded } from "react-icons/md";
+import { AiFillHome } from "react-icons/ai";
+import { BiAddToQueue, BiSelectMultiple } from "react-icons/bi";
+import { FaHistory } from "react-icons/fa";
 
 const Dashboard = () => {
-    const checkRole = useCheckRole();
-    // console.log(checkRole?.data);
+    const [checkRole, isLoading] = useCheckRole();
+    if(isLoading){
+        return <div>Loading ...</div>
+    }
+    // console.log(checkRole?.data.role);
 
     const menuItems =
-        checkRole?.data === 'admin' ?
+        checkRole?.data.role === 'admin' ?
             <>
                 <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
-                } to='/dashboard/manageclasses'>Manage Classes</NavLink></li>
+                } to='/'><AiFillHome></AiFillHome> Home</NavLink></li>
                 <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
-                } to='/dashboard/manageusers'>Manage Users</NavLink></li>
+                } to='/dashboard/manageclasses'><BsStack></BsStack> Manage Classes</NavLink></li>
+                <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                } to='/dashboard/manageusers'><MdManageAccounts className='text-xl'></MdManageAccounts> Manage Users</NavLink></li>
             </> :
-            checkRole?.data === 'instructor' ?
+            checkRole?.data.role === 'instructor' ?
                 <>
                     <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
-                    } to='/dashboard/addclass'>Add a Class</NavLink></li>
+                    } to='/'><AiFillHome></AiFillHome> Home</NavLink></li>
                     <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
-                    } to='/dashboard/myclasses'>My Classes</NavLink></li>
+                    } to='/dashboard/addclass'><BiAddToQueue></BiAddToQueue> Add a Class</NavLink></li>
+                    <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                    } to='/dashboard/myclasses'><MdOutlineRemoveFromQueue></MdOutlineRemoveFromQueue> My Classes</NavLink></li>
                 </> :
                 <>
                     <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
-                    } to='/dashboard/selectedclass'>My Selected Classes</NavLink></li>
+                    } to='/'><AiFillHome></AiFillHome> Home</NavLink></li>
                     <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
-                    } to='/dashboard/paymenthistory'>My Payment History</NavLink></li>
+                    } to='/dashboard/selectedclass'><BiSelectMultiple className='text-xl'></BiSelectMultiple> My Selected Classes</NavLink></li>
                     <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
-                    } to='/dashboard/enrolledclass'>My Enrolled Classes</NavLink></li>
+                    } to='/dashboard/paymenthistory'><FaHistory></FaHistory> My Payment History</NavLink></li>
+                    <li><NavLink className={({ isActive, isPending }) => isActive && "text-primary font-bold"
+                    } to='/dashboard/enrolledclass'><MdBookmarkAdded className='text-xl'></MdBookmarkAdded> My Enrolled Classes</NavLink></li>
                 </>
     // if (checkRole === 'admin') {
     //     const menuItems =

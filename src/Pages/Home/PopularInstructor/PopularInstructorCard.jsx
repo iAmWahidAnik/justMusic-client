@@ -1,10 +1,10 @@
 import React from 'react';
 
 const PopularInstructorCard = ({ ins }) => {
-    const { displayName, email } = ins;
+    const { displayName, email, photoURL } = ins;
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
-            <figure><img src='https://en.pimg.jp/047/504/268/1/47504268.jpg' alt="instructors" /></figure>
+            <figure><img className='h-96 object-cover w-full' src={photoURL} alt="instructors" /></figure>
             <div className="card-body">
                 <h2 className="card-title">
                     {displayName}

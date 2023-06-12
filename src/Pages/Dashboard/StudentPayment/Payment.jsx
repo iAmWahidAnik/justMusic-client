@@ -5,7 +5,6 @@ import CheckoutForm from './CheckoutForm';
 import { useParams } from 'react-router-dom';
 
 const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_GATEWAY);
-// TODO : have to sort payment history newest payment first
 
 const Payment = () => {
     const {price, email, classId} = useParams();

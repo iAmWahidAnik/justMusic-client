@@ -13,6 +13,10 @@ const CheckoutForm = ({ amount, email, classId }) => {
     const { user, loading } = useContext(AuthContext);
     const [processing, setProcessing] = useState(false)
     const [clientSecret, setClientSecret] = useState('');
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return
+    }
 
     if (loading) {
         return <div>Loading...</div>
@@ -79,7 +83,11 @@ const CheckoutForm = ({ amount, email, classId }) => {
         if (paymentIntent.status === 'succeeded') {
             const transactionId = paymentIntent.id;
 
-            axios.patch(`http://localhost:3000/paymentsuccess?email=${email}&classId=${classId}`, { transactionId, paymentStatus: 'successful', paymentDate: new Date() })
+            axios.patch(`http://localhost:3000/paymentsuccess?email=${email}&classId=${classId}`, { transactionId, paymentStatus: 'successful', paymentDate: new Date() }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     if (res.data.modifiedCount > 0) {
                         Swal.fire({

@@ -6,6 +6,10 @@ import EnrolledClassCard from './EnrolledClassCard';
 
 const MyEnrolledClass = () => {
     const { user, loading } = useContext(AuthContext);
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return
+    }
     if (loading) {
         return <button className="btn">
             <span className="loading loading-spinner"></span>
@@ -16,7 +20,11 @@ const MyEnrolledClass = () => {
     const { data: myEnrolledClass, isLoading } = useQuery({
         queryKey: ['myEnrolledClass'],
         queryFn: async () => {
-            const response = axios.get(`http://localhost:3000/enrolledclass?email=${user?.email}`)
+            const response = axios.get(`http://localhost:3000/enrolledclass?email=${user?.email}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             return response;
         }
     })

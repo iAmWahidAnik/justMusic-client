@@ -8,7 +8,7 @@ const PopularClass = () => {
         queryKey: ['popularCLasses'],
         queryFn: async () => {
             const response = axios.get('http://localhost:3000/popularclass')
-            return response;;
+            return response;
         }
     })
     if (isLoading) {
@@ -18,10 +18,11 @@ const PopularClass = () => {
         </button>
     }
     const classes = popularClasses?.data;
+    console.log(classes);
     return (
         <>
             <h1 className='text-5xl font-semibold text-primary border-l-8 border-primary pl-3 mt-20'>Popular Classes</h1>
-            <div className='my-20 grid grid-cols-3  gap-5'>
+            <div className='my-20 grid grid-cols-1 lg:grid-cols-3  gap-5'>
                 {
                     classes.map(perClass => <ClassCard key={perClass._id} perClass={perClass}></ClassCard>)
                 }

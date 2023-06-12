@@ -6,6 +6,10 @@ import { AuthContext } from '../../../../Providers/AuthProvider';
 
 const MySelectedClass = () => {
     const { user, loading } = useContext(AuthContext);
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return
+    }
     if (loading) {
         return <button className="btn">
             <span className="loading loading-spinner"></span>
@@ -15,7 +19,11 @@ const MySelectedClass = () => {
     const { data: myAddedClass, isLoading, refetch } = useQuery({
         queryKey: ['myAddedClass'],
         queryFn: async () => {
-            const response = axios.get(`http://localhost:3000/myselectedclass?email=${user?.email}`)
+            const response = axios.get(`http://localhost:3000/myselectedclass?email=${user?.email}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             return response;
         }
     })

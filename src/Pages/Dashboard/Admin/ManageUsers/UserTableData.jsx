@@ -4,19 +4,27 @@ import Swal from 'sweetalert2';
 
 const UserTableData = ({ user, refetch }) => {
     const { _id, displayName, email, role } = user;
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return
+    }
 
     const handleRole = (id, role) => {
-        const update = {role}
-        axios.patch(`http://localhost:3000/updaterole?id=${id}`, update)
-        .then(res => {
-            if(res.data.modifiedCount > 0){
-                refetch();
-                Swal.fire({
-                    icon: 'success',
-                    title: `User Updated to ${role} Successfully`
-                  });
+        const update = { role }
+        axios.patch(`http://localhost:3000/updaterole?id=${id}`, update, {
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         })
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        icon: 'success',
+                        title: `User Updated to ${role} Successfully`
+                    });
+                }
+            })
     }
     return (
         <tr>
