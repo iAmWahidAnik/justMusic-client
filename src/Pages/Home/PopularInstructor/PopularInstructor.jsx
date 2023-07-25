@@ -21,7 +21,8 @@ const PopularInstructor = () => {
     return (
         <>
             <h1 className='text-5xl font-semibold text-primary border-l-8 border-primary pl-3'>Popular Instructors</h1>
-            <div className='my-20 grid grid-cols-1 lg:grid-cols-3  gap-5'>
+            <p className='text-gray-500 ml-5 my-3'>Student's Choice</p>
+            <div className='mb-20 grid grid-cols-1 lg:grid-cols-3  gap-5'>
                 {
                     instructors.map(ins => <PopularInstructorCard key={ins._id} ins={ins}></PopularInstructorCard>)
                 }

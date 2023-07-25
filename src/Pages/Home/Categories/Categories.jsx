@@ -41,8 +41,9 @@ const Categories = () => {
     // }
     return (
         <>
-            <button onClick={()=>animationRef.current.restart()} className='btn btn-primary mx-auto block'>See Animation</button>
-            <div className='flex flex-col lg:flex-row my-20 gap-10 text-center overflow-x-hidden'>
+            <h1 className='text-5xl font-semibold text-primary border-l-8 border-primary pl-3'>Categories</h1>
+            <p className='text-gray-500 ml-5 my-3'>Best Of</p>
+            <div className='flex flex-col lg:flex-row mb-20 gap-10 text-center overflow-x-hidden'>
                 <div className='shadow-xl relative el'>
                     <img className='rounded-xl h-[700px] w-full object-cover' src="https://images.unsplash.com/photo-1547355253-ff0740f6e8c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1527&q=80" alt="category image" />
                     <button className='absolute btn btn-white uppercase bottom-10 hover:-translate-x-5 font-semibold shadow-lg'>Pop Music <FaArrowRight className='ml-5'></FaArrowRight></button>

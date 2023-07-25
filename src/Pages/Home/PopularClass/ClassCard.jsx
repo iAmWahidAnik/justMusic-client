@@ -3,6 +3,7 @@ import { AuthContext } from '../../../Providers/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import useCheckRole from '../../../hooks/useCheckRole';
 
 const ClassCard = ({ perClass }) => {
     const { _id, className, classImage, instructorName, instructorEmail, availableSeat, price, totalEnrolledStudent } = perClass;
@@ -11,11 +12,27 @@ const ClassCard = ({ perClass }) => {
 
     //user from firebase
     const { user, loading } = useContext(AuthContext);
-    if (loading) {
-        return <button className="btn">
-            <span className="loading loading-spinner"></span>
-            loading
-        </button>
+    // const [checkRole, isLoading] = useCheckRole();
+
+    // if (checkRole?.data.role === 'admin' || checkRole?.data.role === 'instructor') {
+    //     setDisable(true);
+    // }
+    // const role = checkRole?.data.role;
+    // if (role) {
+    //     if (role === 'admin' || role === 'instructor') {
+    //             setDisable(true);
+    //         } 
+    //     }
+
+    // if (loading || isLoading) {
+    //     return <button className="btn">
+    //         <span className="loading loading-spinner"></span>
+    //         loading
+    //     </button>
+    // }
+
+    if (availableSeat === 0) {
+        setDisable(true);
     }
 
     const handleSelectClass = (id) => {
@@ -62,7 +79,7 @@ const ClassCard = ({ perClass }) => {
             })
     }
     return (
-        <div className="card w-96 bg-base-100 shadow-xl">
+        <div className={`card w-96 shadow-xl ${availableSeat === 0 ? 'bg-red-500' : 'bg-base-100'}`}>
             <figure><img className='h-56 w-full object-cover' src={classImage} alt="Shoes" /></figure>
             <div className="card-body">
                 <h2 className="card-title">
@@ -75,8 +92,10 @@ const ClassCard = ({ perClass }) => {
                     <div className="badge badge-outline">price : ${price}</div>
                 </div>
                 <div>
-                    <button disabled={disable} onClick={() => handleSelectClass(_id)} className='btn btn-error btn-sm my-3'>select</button>
+                    {/* <button disabled={`${checkRole?.data.role === 'admin' ? true : checkRole?.data.role === 'instructor' ? true : disable ? true : false}`} onClick={() => handleSelectClass(_id)} className='btn btn-error btn-sm my-3'>select</button> */}
+                    <button disabled={disable} onClick={() => handleSelectClass(_id)} className='btn btn-error btn-sm my-3'>select'</button>
                 </div>
+                {/* </div> */}
             </div>
         </div>
     );

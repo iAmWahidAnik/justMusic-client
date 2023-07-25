@@ -21,8 +21,9 @@ const PopularClass = () => {
     console.log(classes);
     return (
         <>
-            <h1 className='text-5xl font-semibold text-primary border-l-8 border-primary pl-3 mt-20'>Popular Classes</h1>
-            <div className='my-20 grid grid-cols-1 lg:grid-cols-3  gap-5'>
+            <h1 className='text-5xl mt-20 font-semibold text-primary border-l-8 border-primary pl-3'>Popular Classes</h1>
+            <p className='text-gray-500 ml-5 my-3'>Most Enrolled</p>
+            <div className='mb-20 grid grid-cols-1 lg:grid-cols-3  gap-5'>
                 {
                     classes.map(perClass => <ClassCard key={perClass._id} perClass={perClass}></ClassCard>)
                 }
